@@ -6,7 +6,7 @@ import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
-import { formatSize, formatWeight, getPokemonArtwork } from "@/functions/pokemon";
+import { basePokemonStats, formatSize, formatWeight, getPokemonArtwork } from "@/functions/pokemon";
 import { useFetchQuery } from "@/hooks/useFetchQuery";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { router, useLocalSearchParams } from "expo-router";
@@ -21,8 +21,9 @@ export default function Pokemon() {
     const colorType = mainType ? Colors.type?.[mainType] : colors.tint
     const types = pokemon?.types ?? []
     const bio = species?.flavor_text_entries?.find(({language}) => language.name === "en")?.flavor_text.replaceAll("\n", " ");
+    const stats = pokemon?.stats ?? basePokemonStats;
 
-    return <RootView style={{backgroundColor: colorType}}>
+    return <RootView backgroundColor={colorType}>
         <View>
         <Image style={styles.pokeball} source={require("@/assets/images/pokeball_big.png")} width={208} height={208}/>
         <Row style={styles.header}>
@@ -42,7 +43,7 @@ export default function Pokemon() {
                 height={200}
                 />
                 <Card style={styles.card}>
-                    <Row gap={16}>
+                    <Row gap={16} style={{height: 20}}>
                         {types.map(type => <PokemonType name={type.type.name} key={type.type.name}/>)}
                     </Row>
                     <ThemedText variant="subtitle1" style={{color: colorType}}>
@@ -59,7 +60,7 @@ export default function Pokemon() {
                     </ThemedText>
 
                     <View style={{alignSelf: "stretch"}}>
-                        {pokemon?.stats.map(stat => <PokemonStats key={stat.stat.name} name={stat.stat.name} value={stat.base_stat} color={colorType}/>)}
+                        {stats.map(stat => <PokemonStats key={stat.stat.name} name={stat.stat.name} value={stat.base_stat} color={colorType}/>)}
                     </View>
                 </Card>
                 </View>
