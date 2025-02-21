@@ -32,6 +32,14 @@ type API = {
             };
         }[];
     };
+    "/pokemon-species/[id]": {
+        flavor_text_entries: {
+            flavor_text : string;
+            language: {
+                name: string;
+            }
+        }[]
+    }
 };
 
 export function useFetchQuery<T extends keyof API>(path: T, params?: Record<string, string | number>) {
