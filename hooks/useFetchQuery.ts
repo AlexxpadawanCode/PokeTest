@@ -47,7 +47,6 @@ export function useFetchQuery<T extends keyof API>(path: T, params?: Record<stri
     return useQuery({
         queryKey: [localUrl],
         queryFn: async () => {
-            await wait(1)
             return fetch(localUrl, { 
                 headers: {
                     Accept: 'application/json'
@@ -63,7 +62,6 @@ export function useInfiniteFetchQuery<T extends keyof API>(path: T) {
         queryKey: [path],
         initialPageParam: endpoint + path,
         queryFn: async ({pageParam}) => {
-            await wait(1)
             return fetch(pageParam, {
                 headers: {
                     Accept: 'application/json'
